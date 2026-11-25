@@ -55,6 +55,13 @@ bun run check
 
 For optional status and provider routing controls, see the [provider dashboard](docs/provider-dashboard.md), [Gemini project pool](docs/GEMINI_POOL.md), and [Gemini Web status reader](docs/GEMINI_WEB.md).
 
+## The name
+
+In *Death Note*, Watari is L's assistant and his go-between with
+investigators at Interpol. The project takes its name from that role. It
+connects you with a team of coding agents and lets the agents reach each
+other.
+
 ## License
 
 Watari and its VS Code extension use the [GNU Affero General Public License v3.0 or later](LICENSE). The generated types in `src/generated/codex/` come from [OpenAI Codex 0.169.0](https://github.com/openai/codex/tree/rust-v0.169.0) under the [Apache 2.0 license](licenses/openai-codex/LICENSE) and [upstream notice](licenses/openai-codex/NOTICE).
