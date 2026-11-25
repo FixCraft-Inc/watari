@@ -1,0 +1,14 @@
+.vscode/**
+node_modules/**
+src/**
+test/**
+smoke.mjs
+preview.mjs
+preview-*.png
+media/_preview*.html
+tsconfig.json
+bun.lock
+.gitignore
+.vscodeignore
+out/**/*.map
+**/*.ts

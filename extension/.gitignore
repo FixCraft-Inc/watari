@@ -1,0 +1,9 @@
+node_modules/
+out/
+coverage/
+.vscode-test/
+.vscode-test-web/
+*.vsix
+*.tgz
+preview-*.png
+media/_preview*.html

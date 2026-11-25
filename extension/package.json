@@ -1,0 +1,203 @@
+{
+  "name": "watari-vscode",
+  "displayName": "Watari",
+  "description": "Run Codex, Claude Code, OpenCode, and Qwen Code together in one local coding workspace.",
+  "version": "0.1.2",
+  "license": "AGPL-3.0-or-later",
+  "publisher": "watari",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "AI",
+    "Other"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "capabilities": {
+    "virtualWorkspaces": false,
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Watari starts local native coding harnesses with access to the opened checkout. Trust the workspace before opening a team."
+    }
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "watari",
+          "title": "Watari",
+          "icon": "media/watari.svg"
+        }
+      ],
+      "secondarySidebar": [
+        {
+          "id": "watariSecondary",
+          "title": "Watari",
+          "icon": "media/watari.svg"
+        }
+      ]
+    },
+    "views": {
+      "watari": [
+        {
+          "type": "webview",
+          "name": "Team",
+          "contextualTitle": "Watari Team",
+          "id": "watari.team"
+        }
+      ],
+      "watariSecondary": [
+        {
+          "type": "webview",
+          "name": "Team",
+          "contextualTitle": "Watari Team",
+          "id": "watari.teamSecondary"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "watari.team",
+        "contents": "Watari runs native Codex, Claude Code, OpenCode, and Qwen Code sessions in one checkout.\n\n[Open a Folder](command:vscode.openFolder)\n\nThe folder you open is the checkout the agents will share."
+      },
+      {
+        "view": "watari.teamSecondary",
+        "contents": "Watari runs native Codex, Claude Code, OpenCode, and Qwen Code sessions in one checkout.\n\n[Open a Folder](command:vscode.openFolder)\n\nThe folder you open is the checkout the agents will share."
+      }
+    ],
+    "commands": [
+      {
+        "command": "watari.open",
+        "title": "Open Team",
+        "category": "Watari",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "watari.openInEditor",
+        "title": "Open Team in Editor",
+        "category": "Watari",
+        "icon": "$(link-external)"
+      },
+      {
+        "command": "watari.newChat",
+        "title": "Archive Chat and Start a Fresh One",
+        "category": "Watari",
+        "icon": "$(add)"
+      },
+      {
+        "command": "watari.completeGoal",
+        "title": "Complete the Current Goal",
+        "category": "Watari",
+        "icon": "$(check)"
+      },
+      {
+        "command": "watari.checkBridges",
+        "title": "Re-test Every Team Bridge",
+        "category": "Watari",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "watari.reconnect",
+        "title": "Reconnect",
+        "category": "Watari",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "watari.showLog",
+        "title": "Show Extension Log",
+        "category": "Watari",
+        "icon": "$(output)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "watari.newChat",
+          "when": "(view == watari.team || view == watari.teamSecondary) && watari.connected",
+          "group": "navigation@1"
+        },
+        {
+          "command": "watari.openInEditor",
+          "when": "view == watari.team || view == watari.teamSecondary",
+          "group": "navigation@2"
+        },
+        {
+          "command": "watari.reconnect",
+          "when": "view == watari.team || view == watari.teamSecondary",
+          "group": "1_watari@1"
+        },
+        {
+          "command": "watari.completeGoal",
+          "when": "(view == watari.team || view == watari.teamSecondary) && watari.connected",
+          "group": "1_watari@2"
+        },
+        {
+          "command": "watari.checkBridges",
+          "when": "(view == watari.team || view == watari.teamSecondary) && watari.connected",
+          "group": "1_watari@3"
+        },
+        {
+          "command": "watari.showLog",
+          "when": "view == watari.team || view == watari.teamSecondary",
+          "group": "9_watari@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "watari.newChat",
+          "when": "watari.connected"
+        },
+        {
+          "command": "watari.completeGoal",
+          "when": "watari.connected"
+        },
+        {
+          "command": "watari.checkBridges",
+          "when": "watari.connected"
+        },
+        {
+          "command": "watari.reconnect",
+          "when": "watari.connected"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Watari",
+      "properties": {
+        "watari.executablePath": {
+          "type": "string",
+          "default": "watari",
+          "markdownDescription": "The `watari` executable. A bare name is resolved on `PATH`; an absolute path is used as given."
+        },
+        "watari.startServiceOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Start a per-project Watari service when opening the team and none is running. Turning this off makes the extension attach only, the way `watari attach` does."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -p . --watch",
+    "test": "tsc -p . && node --test test/*.test.mjs",
+    "check": "tsc -p . --noEmit && npm run test",
+    "vscode:prepublish": "tsc -p .",
+    "package": "vsce package --no-dependencies --out watari-vscode.vsix",
+    "preview": "node preview.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "@types/vscode": "1.85.0",
+    "typescript": "5.7.2",
+    "@vscode/vsce": "3.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FixCraft-Inc/watari"
+  },
+  "icon": "media/icon.png"
+}
