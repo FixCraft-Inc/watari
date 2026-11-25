@@ -70,12 +70,12 @@ has no Gemini key editor. `status` lists enrolled labels and project IDs without
 printing keys. The CLI supports adding projects, but has no replace/remove
 subcommand yet.
 
-For the installed user service, add a new project while the connector is stopped:
+Stop the connector before you add a project. If you run `serve` as a systemd user service, stop and start that unit around the change. The unit name below is an example:
 
 ```bash
 chmod 600 ~/new-google.key
 systemctl --user stop watari-gemini-pool.service
-watari gemini-pool add free-05 YOUR_PROJECT_ID --key-file ~/new-google.key --billing-disabled
+watari gemini-pool add project-05 YOUR_PROJECT_ID --key-file ~/new-google.key --billing-disabled
 systemctl --user start watari-gemini-pool.service
 ```
 
@@ -98,12 +98,12 @@ Watari does not start an automatic retry turn for quota errors. OpenCode can
 still keep its existing prompt pending after the pool returns HTTP 429, leaving
 the peer displayed as busy while the pool itself is idle. Check pool status
 before retrying. If every project is `daily_exhausted`, wait until the reported
-`exhaustedUntil` (normally midnight Pacific); a minute's wait will not restore it.
+`exhaustedUntil` (normally midnight Pacific). A minute's wait will not restore it.
 Stop only the affected peer through Watari to cancel a pending prompt while
 preserving its native conversation. Check active tools before interrupting.
 After capacity returns, address a continuation message to that peer. If it has
-already failed, `/retry gemini` resumes its saved conversation. Both actions
-start work and can consume quota; neither requires clearing context or restarting
+already failed, `/retry <alias>` (for example `/retry gemini`) resumes its saved conversation. Both actions
+start work and can consume quota. Neither requires clearing context or restarting
 the shared coordinator.
 
 `attemptsToday` counts upstream attempts, including retries and rejected calls.
@@ -139,8 +139,8 @@ watari .
 An already-running project service retains its launch environment. Setting
 this variable in another terminal does not retarget that service. Finish
 active work and reopen its service with the intended environment before
-adding an OpenCode agent. This connector requires no CodexLB or TeamClaude
-restart. It does not change global OpenCode configuration.
+adding an OpenCode agent. The connector does not change global OpenCode
+configuration.
 
 To avoid an environment variable on each launch, merge the generated profile
 into the project's ignored `opencode.json` instead. Preserve existing MCP and

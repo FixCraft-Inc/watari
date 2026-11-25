@@ -46,6 +46,8 @@ The source preview passed 700 core tests and 27 VS Code extension tests. The cor
 
 The models come from the providers. Teams can divide work and check each other's findings, while messages and additional turns use context and provider quota. The results above cover integration behavior. A comparison of model quality, throughput, or cost per completed task would need a separate benchmark.
 
+To run the same checks, use the commands below. The VS Code extension tests also need Node.js and npm.
+
 ```bash
 bun run check
 cd extension

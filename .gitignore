@@ -19,6 +19,3 @@ AGENTS.md
 *.pem
 *.key
 /opencode.json
-/CURRENT_STATE.md
-/handoffs/
-/watari_implementation_brief.md
